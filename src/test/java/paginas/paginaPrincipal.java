@@ -26,4 +26,25 @@ public class paginaPrincipal {
 		txtPassword.sendKeys("ebYrYma");
 		btnLogin.click();
 	}
+	
+	public void invalidUser() throws InterruptedException {
+		txtUserID.sendKeys("usuario1");
+		Thread.sleep(2000);
+		txtUserID.sendKeys("ebYrYma");
+		btnLogin.click();
+	}
+	
+	public void invalidPass() throws InterruptedException {
+		txtUserID.sendKeys("mngr549669");
+		Thread.sleep(2000);
+		txtUserID.sendKeys("password1");
+		btnLogin.click();
+	}
+	
+	public void invalidBoth() throws InterruptedException {
+		txtUserID.sendKeys("usuario1");
+		Thread.sleep(2000);
+		txtUserID.sendKeys("password1");
+		btnLogin.click();
+	}
 }

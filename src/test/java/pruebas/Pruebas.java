@@ -10,7 +10,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeSuite;
@@ -34,7 +37,7 @@ public class Pruebas {
 		driver.manage().deleteAllCookies();
 	}
 	
-	@Test(description="CP01 - Login", priority = 1)
+	@Test(description="CP01 - Login", priority = 2)
 	public void login() throws IOException, InterruptedException, InvalidFormatException {
 		//Escribir título del documento
 		CapturarEvidencia.escribirTitutloDocumento(directorioEvidencias + nombreDocumento, "Documento Evidencia Automatización", 20);
@@ -47,7 +50,34 @@ public class Pruebas {
 		CapturarEvidencia.capturarPantallaEnDocumento(driver, directorioEvidencias + "img.jpg", directorioEvidencias + nombreDocumento, "Pantalla principal - Login Exitoso");
 	}
 	
-	@Test(description="CP01 - Formulario", priority = 2)
+	@Test(description="CP01 - Login Inválido", priority = 1)
+	public void ivalidLogin() throws InvalidFormatException, IOException, InterruptedException {
+		paginaPrincipal principal1 = new paginaPrincipal(driver);
+		principal1.invalidUser();
+		Thread.sleep(2000);
+		driver.switchTo().alert().accept();
+		principal1.invalidPass();
+		Thread.sleep(2000);
+		driver.switchTo().alert().accept();
+		principal1.invalidBoth();
+		Thread.sleep(2000);
+		driver.switchTo().alert().accept();
+	}
+	
+	@Test(description="CP02 - Obtener Título", priority = 3)
+	public void obtenerTitulo () throws Exception {
+		String tituloEsperado = "Guru99 Bank Manager HomePage";
+		String tituloObtenido = driver.getTitle();
+		
+		if(!tituloEsperado.equals(tituloObtenido)) {
+			throw new Exception(
+			"Prueba fallida - Título no coincide. Esperado: " + tituloEsperado + "Obtenido: " + tituloObtenido);
+		} else {
+			System.out.println("Prueba existosa - Título si coincide.");
+		}
+	}
+	
+	@Test(description="CP03 - Formulario", priority = 4)
 	public void llenarFormulario() throws IOException, InvalidFormatException, InterruptedException {
 		WebDriverWait espera = new WebDriverWait(driver, Duration.ofSeconds(30));
 		espera.until(ExpectedConditions.elementToBeClickable(By.linkText("New Customer")));
